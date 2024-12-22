@@ -69,11 +69,7 @@
                         <h5 class="card-title" th:text="${meal.strMeal}">Recipe Name</h5>
                         <div class="d-flex justify-content-between align-items-center">
                             <a th:href="@{/meal/{id}(id=${meal.idMeal})}" class="btn btn-primary">View Details</a>
-                            <form th:action="@{/favorites/add}" method="post" class="d-inline">
-                                <input type="hidden" name="mealId" th:value="${meal.idMeal}">
-                                <button type="submit" class="btn btn-outline-danger">
-                                    <i class="fas fa-heart"></i>
-                                </button>
+                                </button> 
                             </form>
                         </div>
                     </div>

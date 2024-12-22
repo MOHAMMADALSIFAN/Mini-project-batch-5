@@ -29,7 +29,7 @@ public class MealController {
     @GetMapping("/search")
     public String searchPage(@AuthenticationPrincipal OAuth2User principal, Model model) {
         if (principal != null) {
-            String userId = mealService.extractUserId(principal);
+            String userId = userService.extractUserId(principal);
             String userName = userService.getCurrentUserName(userId);
             model.addAttribute("name", userName != null ? userName : principal.getAttribute("name"));
         }
@@ -47,7 +47,7 @@ public class MealController {
             Model model) {
 
         if (principal != null) {
-            String userId = mealService.extractUserId(principal);
+            String userId = userService.extractUserId(principal);
             String userName = userService.getCurrentUserName(userId);
             model.addAttribute("name", userName != null ? userName : principal.getAttribute("name"));
         }
@@ -75,12 +75,9 @@ public class MealController {
     }
 
     @GetMapping("/meal/{id}")
-    public String getMealDetails(
-            @PathVariable String id,
-            @AuthenticationPrincipal OAuth2User principal,
-            Model model) {
+    public String getMealDetails(@PathVariable String id,@AuthenticationPrincipal OAuth2User principal,Model model) {
         if (principal != null) {
-            String userId = mealService.extractUserId(principal);
+            String userId = userService.extractUserId(principal);
             String userName = userService.getCurrentUserName(userId);
             model.addAttribute("name", userName != null ? userName : principal.getAttribute("name"));
         }
@@ -90,11 +87,9 @@ public class MealController {
     }
 
     @GetMapping("/favorites")
-    public String getFavorites(
-            @AuthenticationPrincipal OAuth2User principal,
-            Model model) {
+    public String getFavorites(@AuthenticationPrincipal OAuth2User principal,Model model) {
         if (principal != null) {
-            String userId = mealService.extractUserId(principal);
+            String userId = userService.extractUserId(principal);
             String userName = userService.getCurrentUserName(userId);
             model.addAttribute("name", userName != null ? userName : principal.getAttribute("name"));
             if (userId != null) {
@@ -107,12 +102,9 @@ public class MealController {
     }
 
     @PostMapping("/favorites/add")
-    public String addToFavorites(
-            @RequestParam String mealId,
-            @AuthenticationPrincipal OAuth2User principal) {
+    public String addToFavorites(@RequestParam String mealId,@AuthenticationPrincipal OAuth2User principal) {
         if (principal != null) {
-            // Get user ID based on OAuth provider
-            String userId = mealService.extractUserId(principal);
+            String userId = userService.extractUserId(principal);
             if (userId != null) {
                 mealService.addToFavorites(userId, mealId);
             }
@@ -121,11 +113,9 @@ public class MealController {
     }
 
     @PostMapping("/favorites/remove")
-    public String removeFromFavorites(
-            @RequestParam String mealId,
-            @AuthenticationPrincipal OAuth2User principal) {
+    public String removeFromFavorites(@RequestParam String mealId,@AuthenticationPrincipal OAuth2User principal) {
         if (principal != null) {
-            String userId = mealService.extractUserId(principal);
+            String userId = userService.extractUserId(principal);
             if (userId != null) {
                 mealService.removeFromFavorites(userId, mealId);
             }
@@ -136,7 +126,7 @@ public class MealController {
     @GetMapping("/random")
     public String getRandomMeal(@AuthenticationPrincipal OAuth2User principal, Model model) {
         if (principal != null) {
-            String userId = mealService.extractUserId(principal);
+            String userId = userService.extractUserId(principal);
             String userName = userService.getCurrentUserName(userId);
             model.addAttribute("name", userName != null ? userName : principal.getAttribute("name"));
         }

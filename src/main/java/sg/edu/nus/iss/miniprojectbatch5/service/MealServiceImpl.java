@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -24,7 +23,7 @@ import sg.edu.nus.iss.miniprojectbatch5.repo.MealRepositoryImpl;
 @Service
 public class MealServiceImpl {
 
-    private static final String MEALDB_API_URL = "https://www.themealdb.com/api/json/v1/1";
+    private static final String MealDbApiUrl = "https://www.themealdb.com/api/json/v1/1";
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
@@ -32,7 +31,7 @@ public class MealServiceImpl {
 
     public List<Meal> searchMeals(String query) {
         String url = UriComponentsBuilder
-                .fromUriString(MEALDB_API_URL)
+                .fromUriString(MealDbApiUrl)
                 .path("/search.php")
                 .queryParam("s", query)
                 .toUriString();
@@ -55,7 +54,7 @@ public class MealServiceImpl {
 
     public Meal getMealById(String id) {
         String url = UriComponentsBuilder
-                .fromUriString(MEALDB_API_URL)
+                .fromUriString(MealDbApiUrl)
                 .path("/lookup.php")
                 .queryParam("i", id)
                 .toUriString();
@@ -75,7 +74,7 @@ public class MealServiceImpl {
 
     public Meal getRandomMeal() {
         String url = UriComponentsBuilder
-                .fromUriString(MEALDB_API_URL)
+                .fromUriString(MealDbApiUrl)
                 .path("/random.php")
                 .toUriString();
 
@@ -149,7 +148,7 @@ public class MealServiceImpl {
 
     public List<String> getAllCategories() {
         String url = UriComponentsBuilder
-                .fromUriString(MEALDB_API_URL)
+                .fromUriString(MealDbApiUrl)
                 .path("/list.php")
                 .queryParam("c", "list")
                 .toUriString();
@@ -172,7 +171,7 @@ public class MealServiceImpl {
 
     public List<String> getAllAreas() {
         String url = UriComponentsBuilder
-                .fromUriString(MEALDB_API_URL)
+                .fromUriString(MealDbApiUrl)
                 .path("/list.php")
                 .queryParam("a", "list")
                 .toUriString();
@@ -195,7 +194,7 @@ public class MealServiceImpl {
 
     public List<Meal> filterByArea(String area) {
         String url = UriComponentsBuilder
-                .fromUriString(MEALDB_API_URL)
+                .fromUriString(MealDbApiUrl)
                 .path("/filter.php")
                 .queryParam("a", area)
                 .toUriString();
@@ -227,7 +226,7 @@ public class MealServiceImpl {
 
     public List<Meal> filterByCategory(String category) {
         String url = UriComponentsBuilder
-                .fromUriString(MEALDB_API_URL)
+                .fromUriString(MealDbApiUrl)
                 .path("/filter.php")
                 .queryParam("c", category)
                 .toUriString();
@@ -255,27 +254,5 @@ public class MealServiceImpl {
             }
             return Collections.emptyList();
         }
-    }
-
-    public String extractUserId(OAuth2User principal) {
-        // Try getting GitHub ID
-        Object githubId = principal.getAttribute("id");
-        if (githubId != null) {
-            return githubId.toString();
-        }
-
-        // Try getting Google sub (subject) ID
-        String googleId = principal.getAttribute("sub");
-        if (googleId != null) {
-            return googleId;
-        }
-
-        // If neither found, use email as fallback
-        String email = principal.getAttribute("email");
-        if (email != null) {
-            return email;
-        }
-
-        return null;
     }
 }

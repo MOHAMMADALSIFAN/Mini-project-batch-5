@@ -7,14 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import sg.edu.nus.iss.miniprojectbatch5.service.MealServiceImpl;
 import sg.edu.nus.iss.miniprojectbatch5.service.UserServiceImpl;
 
 @Controller
 public class LoginController {
-
-    @Autowired
-    MealServiceImpl mealService;
     
     @Autowired
     UserServiceImpl userService;
@@ -27,7 +23,7 @@ public class LoginController {
     @GetMapping("/")
     public String home(@AuthenticationPrincipal OAuth2User principal, Model model) {
         if (principal != null) {
-            String userId = mealService.extractUserId(principal);
+            String userId = userService.extractUserId(principal);
             String userName = userService.getCurrentUserName(userId);
             model.addAttribute("name", userName != null ? userName : principal.getAttribute("name"));
         }
