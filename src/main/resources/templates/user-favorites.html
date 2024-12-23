@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>My Favorites - Recipe App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <nav class="navbar navbar-expand navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">Recipe</a>
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="fas fa-utensils me-2"></i>Recipe
+            </a>
             <div class="navbar-nav ms-auto">
-                <a class="nav-item nav-link" href="/search">Search</a>
-                <span class="nav-item nav-link">
-                  <a href="/profile" class="text-white text-decoration-none" th:text="${name}">User</a>
-              </span>
-                <a class="nav-item nav-link" href="/logout">Logout</a>
+                <a class="nav-link" th:href="@{/search}">Search</a>
+                <a class="nav-link" th:href="@{/favorites}">Favorites</a>
+                <a class="nav-link" th:href="@{/profile}" th:text="${name}">User</a>
+                <a class="nav-link" th:href="@{/logout}">Logout</a>
             </div>
         </div>
     </nav>
@@ -40,8 +43,9 @@
         </div>
         <div th:if="${favorites == null || favorites.empty}" class="text-center mt-4">
             <p>You haven't added any favorites yet.</p>
-            <a href="/search" class="btn btn-primary">Search Recipes</a>
+            <a th:href="@{/search}" class="btn btn-primary">Search Recipes</a>
         </div>
     </div>
 </body>
+
 </html>

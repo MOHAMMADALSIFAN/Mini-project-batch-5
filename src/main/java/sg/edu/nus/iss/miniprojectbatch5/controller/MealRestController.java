@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import sg.edu.nus.iss.miniprojectbatch5.model.Meal;
-import sg.edu.nus.iss.miniprojectbatch5.service.MealServiceImpl;
+import sg.edu.nus.iss.miniprojectbatch5.service.MealService;
 
 @RestController
 @RequestMapping("/api")
 public class MealRestController {
 
     @Autowired
-    private MealServiceImpl mealService;
+    private MealService mealService;
 
     @GetMapping("/meals/search")
     public ResponseEntity<List<Meal>> searchMeals(@RequestParam String query) {

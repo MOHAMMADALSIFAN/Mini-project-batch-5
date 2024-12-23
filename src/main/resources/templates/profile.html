@@ -10,12 +10,14 @@
 <body>
     <nav class="navbar navbar-expand navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">Recipe</a>
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="fas fa-utensils me-2"></i>Recipe
+            </a>
             <div class="navbar-nav ms-auto">
-                <a class="nav-item nav-link" href="/search">Search</a>
-                <a class="nav-item nav-link" href="/favorites">Favorites</a>
+                <a class="nav-link" th:href="@{/search}">Search</a>
+                <a class="nav-link" th:href="@{/favorites}">Favorites</a>
                 <span class="nav-item nav-link active" th:text="${name}">User</span>
-                <a class="nav-item nav-link" href="/logout">Logout</a>
+                <a class="nav-link" th:href="@{/logout}">Logout</a>
             </div>
         </div>
     </nav>
@@ -78,14 +80,14 @@
                                         th:errors="*{imageUrl}">
                                     </div>
 
-                            <!-- Submit Button -->
-                            <div class="mt-4">
-                                <button type="submit" class="btn btn-primary">Update Profile</button>
-                                <a href="/" class="btn btn-secondary ms-2">Cancel</a>
-                            </div>
-                            <div class="mt-4">
-                                <a href="/" class="btn btn-primary">Back to home</a>
-                            </div>
+                                    <!-- Submit Button -->
+                                    <div class="mt-4">
+                                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                                        <a th:href="@{/}" class="btn btn-secondary ms-2">Cancel</a>
+                                    </div>
+                                    <div class="mt-4">
+                                        <a th:href="@{/}" class="btn btn-primary">Back to home</a>
+                                    </div>
                         </form>
                     </div>
                 </div>

@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import sg.edu.nus.iss.miniprojectbatch5.model.Meal;
-import sg.edu.nus.iss.miniprojectbatch5.service.MealServiceImpl;
-import sg.edu.nus.iss.miniprojectbatch5.service.UserServiceImpl;
+import sg.edu.nus.iss.miniprojectbatch5.service.MealService;
+import sg.edu.nus.iss.miniprojectbatch5.service.UserService;
 
 @Controller
 public class MealController {
 
     @Autowired
-    MealServiceImpl mealService;
+    MealService mealService;
 
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     @GetMapping("/search")
     public String searchPage(@AuthenticationPrincipal OAuth2User principal, Model model) {
@@ -33,6 +33,11 @@ public class MealController {
             String userName = userService.getCurrentUserName(userId);
             model.addAttribute("name", userName != null ? userName : principal.getAttribute("name"));
         }
+
+        // Add the random meals
+        List<Meal> randomMeals = mealService.getRandomMealsList();
+        model.addAttribute("randomMeals", randomMeals);
+        
         model.addAttribute("categories", mealService.getAllCategories());
         model.addAttribute("areas", mealService.getAllAreas());
         return "search";
@@ -45,7 +50,7 @@ public class MealController {
             @RequestParam(required = false) String area,
             @AuthenticationPrincipal OAuth2User principal,
             Model model) {
-
+        
         if (principal != null) {
             String userId = userService.extractUserId(principal);
             String userName = userService.getCurrentUserName(userId);
@@ -67,6 +72,9 @@ public class MealController {
             results = Collections.emptyList();
         }
 
+        // Add random meals to results page as well
+        List<Meal> randomMeals = mealService.getRandomMealsList();
+        model.addAttribute("randomMeals", randomMeals);
         model.addAttribute("results", results);
         model.addAttribute("searchQuery", query);
         model.addAttribute("selectedCategory", category);
@@ -132,7 +140,7 @@ public class MealController {
         }
         Meal randomMeal = mealService.getRandomMeal();
         model.addAttribute("meal", randomMeal);
-        return "meal-details"; // Reuse the meal-details template
+        return "meal-details"; 
     }
 
 }

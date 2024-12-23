@@ -17,7 +17,7 @@ import jakarta.json.JsonValue;
 import sg.edu.nus.iss.miniprojectbatch5.model.UserProfile;
 
 @Service
-public class UserServiceImpl{
+public class UserService{
 
     @Autowired
     @Qualifier("meal")

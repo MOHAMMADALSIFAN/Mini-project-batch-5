@@ -14,7 +14,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 
 @Repository
-public class MealRepositoryImpl {
+public class MealRepository{
     
     @Autowired
     @Qualifier("meal")

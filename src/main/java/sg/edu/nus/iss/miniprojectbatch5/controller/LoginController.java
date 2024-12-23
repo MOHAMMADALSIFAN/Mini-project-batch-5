@@ -7,13 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import sg.edu.nus.iss.miniprojectbatch5.service.UserServiceImpl;
+import sg.edu.nus.iss.miniprojectbatch5.service.UserService;
 
 @Controller
 public class LoginController {
     
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     @GetMapping("/login")
     public String login() {

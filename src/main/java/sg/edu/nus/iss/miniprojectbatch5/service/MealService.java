@@ -18,16 +18,16 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
 import sg.edu.nus.iss.miniprojectbatch5.model.Meal;
-import sg.edu.nus.iss.miniprojectbatch5.repo.MealRepositoryImpl;
+import sg.edu.nus.iss.miniprojectbatch5.repo.MealRepository;
 
 @Service
-public class MealServiceImpl {
+public class MealService {
 
     private static final String MealDbApiUrl = "https://www.themealdb.com/api/json/v1/1";
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
-    private MealRepositoryImpl mealRepository;
+    private MealRepository mealRepository;
 
     public List<Meal> searchMeals(String query) {
         String url = UriComponentsBuilder
@@ -254,5 +254,20 @@ public class MealServiceImpl {
             }
             return Collections.emptyList();
         }
+    }
+
+     public  List<Meal> getRandomMealsList() {
+        List<Meal> randomMeals = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            try {
+                Meal randomMeal = getRandomMeal();
+                if (randomMeal != null && !randomMeals.contains(randomMeal)) {
+                    randomMeals.add(randomMeal);
+                }
+            } catch (Exception e) {
+                continue;
+            }
+        }
+        return randomMeals;
     }
 }

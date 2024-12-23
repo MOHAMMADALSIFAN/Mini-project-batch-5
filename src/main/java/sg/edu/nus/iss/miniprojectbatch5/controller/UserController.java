@@ -14,13 +14,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
 import sg.edu.nus.iss.miniprojectbatch5.model.UserProfile;
-import sg.edu.nus.iss.miniprojectbatch5.service.UserServiceImpl;
+import sg.edu.nus.iss.miniprojectbatch5.service.UserService;
 @Controller
 @RequestMapping("/profile")
 public class UserController {
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @GetMapping
     public String showProfile(@AuthenticationPrincipal OAuth2User principal, Model model) {
