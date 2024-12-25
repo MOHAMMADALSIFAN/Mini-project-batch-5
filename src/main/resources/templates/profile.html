@@ -5,9 +5,24 @@
     <meta charset="UTF-8">
     <title>Profile - Recipe App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .btn-check:checked+.btn-outline-primary {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .form-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Navigation -->
     <nav class="navbar navbar-expand navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" th:href="@{/}">
@@ -22,72 +37,118 @@
         </div>
     </nav>
 
+    <!-- Main Content -->
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
                         <h2 class="mb-0">Edit Profile</h2>
                     </div>
                     <div class="card-body">
-                        <!-- Success Message -->
+                        <!-- Alerts -->
                         <div th:if="${success}" class="alert alert-success" role="alert" th:text="${success}"></div>
-
-                        <!-- Error Message -->
                         <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
 
                         <form th:action="@{/profile/update}" th:object="${userProfile}" method="post">
-                            <!-- Display Name -->
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Display Name</label>
-                                <input type="text" class="form-control" id="name" th:field="*{name}"
-                                    th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                            <!-- Basic Information Section -->
+                            <div class="form-section">
+                                <h4 class="mb-3">Basic Information</h4>
+                                <!-- Display Name -->
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Display Name</label>
+                                    <input type="text" class="form-control" id="name" th:field="*{name}"
+                                        th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+                                        th:errors="*{name}"></div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" th:field="*{email}"
+                                        th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+                                        th:errors="*{email}"></div>
                                 </div>
                             </div>
 
-                            <!-- Profile Picture Section -->
-                            <div class="mb-4">
-                                <label for="imageUrl" class="form-label fw-semibold">Profile Picture</label>
+                            <!-- Cooking Preferences Section -->
+                            <div class="form-section">
+                                <h4 class="mb-3">Cooking Preferences</h4>
+                                <!-- Favorite Cuisine -->
                                 <div class="mb-3">
-                                    <!-- Current Profile Picture Preview -->
-                                    <div class="text-center mb-3">
-                                        <img th:if="*{imageUrl != null and !imageUrl.empty}" th:src="*{imageUrl}"
-                                            alt="Current Profile Picture" class="rounded-circle"
-                                            style="width: 100px; height: 100px; object-fit: cover; border: 2px solid #dee2e6;">
-                                        <img th:unless="*{imageUrl != null and !imageUrl.empty}"
-                                            src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
-                                            alt="Default Profile Picture" class="rounded-circle"
-                                            style="width: 100px; height: 100px; object-fit: cover; border: 2px solid #dee2e6;">
-                                    </div>
+                                    <label for="favoriteCuisine" class="form-label">Favorite Cuisine</label>
+                                    <select class="form-select" id="favoriteCuisine" th:field="*{favoriteCuisine}"
+                                        th:classappend="${#fields.hasErrors('favoriteCuisine')} ? 'is-invalid' : ''">
+                                        <option value="">Select Cuisine</option>
+                                        <option th:each="cuisine : ${availableCuisines}" th:value="${cuisine}"
+                                            th:text="${cuisine}">Cuisine</option>
+                                    </select>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('favoriteCuisine')}"
+                                        th:errors="*{favoriteCuisine}"></div>
+                                </div>
 
-                                    <!-- URL Input -->
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <i class="fas fa-link"></i>
-                                        </span>
-                                        <input type="url" class="form-control" id="imageUrl" th:field="*{imageUrl}"
-                                            th:classappend="${#fields.hasErrors('imageUrl')} ? 'is-invalid' : ''"
-                                            placeholder="Paste your image URL here">
-                                        <button class="btn btn-outline-secondary" type="button"
-                                            onclick="document.getElementById('imageUrl').value=''">
-                                            Clear
-                                        </button>
+                                <!-- Cooking Level -->
+                                <div class="mb-3">
+                                    <label class="form-label d-block">Cooking Level</label>
+                                    <div class="btn-group w-100" role="group">
+                                        <div th:each="level : ${cookingLevels}">
+                                            <input type="radio" class="btn-check" th:id="${level}"
+                                                th:field="*{cookingLevel}" th:value="${level}">
+                                            <label class="btn btn-outline-primary" th:for="${level}"
+                                                th:text="${level}">Level</label>
+                                        </div>
                                     </div>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('cookingLevel')}"
+                                        th:errors="*{cookingLevel}"></div>
+                                </div>
+                                <!-- Years of Cooking -->
+                                <div class="mb-3">
+                                    <label for="yearsOfCooking" class="form-label">Years of Cooking Experience</label>
+                                    <input type="number" class="form-control" id="yearsOfCooking"
+                                        th:field="*{yearsOfCooking}" min="1" max="70"
+                                        th:classappend="${#fields.hasErrors('yearsOfCooking')} ? 'is-invalid' : ''">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('yearsOfCooking')}"
+                                        th:errors="*{yearsOfCooking}"></div>
+                                </div>
+                            </div>
 
-                                    <!-- Error Message -->
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('imageUrl')}"
-                                        th:errors="*{imageUrl}">
+                            <!-- Dietary Information Section -->
+                            <div class="form-section">
+                                <h4 class="mb-3">Dietary Information</h4>
+                                <!-- Dietary Preference -->
+                                <div class="mb-3">
+                                    <label for="dietaryPreference" class="form-label">Dietary Preference</label>
+                                    <select class="form-select" id="dietaryPreference" th:field="*{dietaryPreference}"
+                                        th:classappend="${#fields.hasErrors('dietaryPreference')} ? 'is-invalid' : ''">
+                                        <option value="">Select Preference</option>
+                                        <option th:each="preference : ${availableDietaryPreferences}"
+                                            th:value="${preference}" th:text="${preference}">Preference</option>
+                                    </select>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('dietaryPreference')}"
+                                        th:errors="*{dietaryPreference}"></div>
+                                </div>
+                                <!-- Allergies -->
+                                <div class="mb-3">
+                                    <label class="form-label">Food Allergies (Select 1-5)</label>
+                                    <div class="form-check"
+                                        th:classappend="${#fields.hasErrors('allergies')} ? 'is-invalid' : ''">
+                                        <div th:each="allergy : ${availableAllergies}">
+                                            <input class="form-check-input" type="checkbox" th:field="*{allergies}"
+                                                th:value="${allergy}">
+                                            <label class="form-check-label" th:text="${allergy}">Allergy</label>
+                                        </div>
                                     </div>
-
-                                    <!-- Submit Button -->
-                                    <div class="mt-4">
-                                        <button type="submit" class="btn btn-primary">Update Profile</button>
-                                        <a th:href="@{/}" class="btn btn-secondary ms-2">Cancel</a>
-                                    </div>
-                                    <div class="mt-4">
-                                        <a th:href="@{/}" class="btn btn-primary">Back to home</a>
-                                    </div>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('allergies')}"
+                                        th:errors="*{allergies}"></div>
+                                </div>
+                                <!-- Submit Buttons -->
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <a th:href="@{/}" class="btn btn-secondary">Cancel</a>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

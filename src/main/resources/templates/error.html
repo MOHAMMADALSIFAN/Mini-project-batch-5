@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${status} ?: 'Error'">Error Page</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            font-family: "Poppins", sans-serif;
+            background-color: #f0f2f5;
+        }
+        .content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 90px;
+            color: #009ec5;
+            margin-bottom: 20px;
+        }
+        img {
+            width: 300px;
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+        .text h2 {
+            font-weight: 600;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        .text p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #009ec5;
+            width: 200px;
+            height: 40px;
+            margin: 20px;
+            border-radius: 20px;
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            display: inline-block;
+            text-decoration: none;
+            line-height: 40px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #007a9b;
+        }
+        .error-details {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <!-- Dynamic Error Code -->
+        <h1 th:text="${status} ?: '404'">404</h1>
+        
+        <!-- Error Illustration -->
+        <img th:src="@{/gif/error.gif}" alt="Error Illustration">
+        
+        <!-- Dynamic Error Message -->
+        <div class="text">
+            <!-- Customize error message based on status code -->
+            <h2 th:switch="${status}">
+                <span th:case="404">Page Not Found</span>
+                <span th:case="500">Internal Server Error</span>
+                <span th:case="403">Access Forbidden</span>
+                <span th:case="400">Bad Request</span>
+                <span th:case="*">Unexpected Error</span>
+            </h2>
+            
+            <!-- Generic error description -->
+            <p th:text="${message} ?: 'Something went wrong. Please try again later.'">
+                Something went wrong. Please try again later.
+            </p>
+            
+            <!-- Optional: Show error details (useful during development) -->
+            <div th:if="${errorDetails}" class="error-details">
+                <p th:text="${errorDetails}">Error details will be shown here</p>
+            </div>
+            
+            <!-- Home Button -->
+            <a th:href="@{/}" class="btn">Go To Home</a>
+        </div>
+        
+    </div>
+</body>
+</html>

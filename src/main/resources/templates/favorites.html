@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>My Favorites - Recipe App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -14,11 +15,10 @@
                 <i class="fas fa-utensils me-2"></i>Recipe
             </a>
             <div class="navbar-nav ms-auto">
-                <a class="nav-item nav-link" href="/search">Search</a>
-                <span class="nav-item nav-link">
-                    <a href="/profile" class="text-white text-decoration-none" th:text="${name}">User</a>
-                </span>
-                <a class="nav-item nav-link" href="/logout">Logout</a>
+                <a class="nav-link" th:href="@{/search}">Search</a>
+                <a class="nav-link" th:href="@{/favorites}">Favorites</a>
+                <a class="nav-link" th:href="@{/profile}" th:text="${name}">User</a>
+                <a class="nav-link" th:href="@{/logout}">Logout</a>
             </div>
         </div>
     </nav>
@@ -49,7 +49,7 @@
         <!-- Show when no favorites -->
         <div th:if="${favorites == null || favorites.empty}" class="text-center mt-4">
             <p class="mb-3">You haven't added any favorites yet.</p>
-            <a href="/search" class="btn btn-primary">Search Recipes</a>
+            <a th:href="@{/search}" class="btn btn-primary">Search Recipes</a>
         </div>
     </div>
 </body>
