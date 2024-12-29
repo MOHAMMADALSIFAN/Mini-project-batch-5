@@ -25,11 +25,3 @@ ENV SERVER_PORT=8080
 EXPOSE ${SERVER_PORT}
 ENTRYPOINT ["java", "-jar", "miniprojectbatch5.jar"]
 
-# run
-# docker build -t cihansifan/filename:v0.0.1 .  
-
-# container
-# docker run -p 8085:8080 cihansifan/filename:v0.0.1     
-
-# to check redis  db using local  cmd
-# redis-cli -u <public_url>
